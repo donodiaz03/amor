@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi DJ NAII</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffebee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url("montaña.jpeg");
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 500px;
+            text-align: center;
+            animation: fadeIn 2s;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: scale(1.02);
+        }
+        
+        h1 {
+            color: #e91e63;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .heart {
+            color: #e91e63;
+            font-size: 30px;
+            animation: beat 1s infinite alternate;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .heart:hover {
+            transform: scale(1.5);
+        }
+        
+        .signature {
+            font-style: italic;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #e91e63;
+            font-size: 20px;
+        }
+        
+        .kiss {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: fly 3s linear forwards;
+            pointer-events: none;
+        }
+        
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            opacity: 0;
+            animation: float 6s linear infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes beat {
+            to { transform: scale(1.3); }
+        }
+        
+        @keyframes fly {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container" id="heartsContainer"></div>
+    
+    <div class="card">
+        <h1>Para ti, mi DJ NAII <span class="heart" id="heart">♥</span></h1>
+        <p id="message">
+            <!-- ¡EDITA ESTE MENSAJE CON TU TEXTO PERSONAL! -->
+            <p>Me gustas mucho mucho mucho mucho.</p>
+            <p>Te mando millones de besos y abrazos.</p>
+            <p>Quiero compartir mas momentos especiales contigo.</p>
+
+            <!-- Puedes escribir lo que quieras aquí dentro de las etiquetas <p> -->
+        </p>
+        <p class="signature">Te lo digo con todo mi corazón</p>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const heart = document.getElementById('heart');
+        const heartsContainer = document.getElementById('heartsContainer');
+        
+        // Crear besos animados
+        function createKiss() {
+            const kiss = document.createElement('div');
+            kiss.className = 'kiss';
+            kiss.textContent = '💋';
+            kiss.style.left = Math.random() * 100 + 'vw';
+            kiss.style.top = '100vh';
+            document.body.appendChild(kiss);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                kiss.remove();
+            }, 3000);
+        }
+        
+        // Crear corazones flotantes
+        function createFloatingHearts() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.innerHTML = '❤';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    heart.style.animationDelay = (Math.random() * 3) + 's';
+                    heartsContainer.appendChild(heart);
+                    
+                    // Eliminar después de la animación
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 6000);
+                }, i * 300);
+            }
+        }
+        
+        // Event listeners
+        heart.addEventListener('click', () => {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createKiss, i * 200);
+            }
+        });
+        
+        // Inicializar
+        createFloatingHearts();
+        setInterval(createFloatingHearts, 8000);
+        
+        // Efecto de movimiento con el mouse
+        document.addEventListener('mousemove', (e) => {
+            const card = document.querySelector('.card');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+    </script>
+</body>
+</html>
